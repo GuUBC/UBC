@@ -3,296 +3,413 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuidado e bem estar</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Cuidado e Bem-Estar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        /* Estilo básico para o site */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff2f8;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Camada de fundo borrado */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('imagens/massagem.jpg'); /* Substitua com o caminho correto da imagem */
+            background-size: cover;
+            background-position: center;
+            background-attachment: scroll;
+            filter: blur(8px);
+            z-index: -1;
+            transition: filter 0.5s ease;
+        }
+
+        /* O conteúdo do site */
+        .content {
+            position: relative;
+            z-index: 1;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Título com fundo artístico */
+        header {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.8));
+            text-align: center;
+            padding: 20px 30px;
+            color: white;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+            margin: 20px auto;
+            width: 80%;
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin: 0;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* Estilo para a seção de perguntas */
+        #perguntas {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            margin: 20px auto;
+            width: 60%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Título das perguntas */
+        h2 {
+            color: #FFB6C1;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            font-family: 'Dancing Script', cursive;
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Estilo do formulário */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Estilo das labels */
+        label {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        /* Estilo para os botões de opção (radio buttons) */
+        input[type="radio"] {
+            display: none;
+        }
+
+        input[type="radio"] + label {
+            display: inline-block;
+            position: relative;
+            padding-left: 35px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: color 0.3s, font-size 0.3s;
+        }
+
+        input[type="radio"] + label::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid #FFB6C1;
+            border-radius: 50%;
+            background-color: white;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        input[type="radio"]:checked + label::before {
+            background-color: #FFB6C1;
+            border-color: #FF69B4;
+        }
+
+        input[type="radio"]:not(:checked) + label:hover::before {
+            border-color: #FF69B4;
+        }
+
+        /* Estilo do botão de envio */
+        input[type="submit"] {
+            background-color: #FFB6C1;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 20px;
+            width: 200px;
+            align-self: center;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #FF69B4;
+            transform: scale(1.1);
+        }
+
+        /* Rodapé */
+        footer {
+            background-color: rgba(255, 182, 193, 0.6);
+            text-align: center;
+            padding: 10px;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-size: 0.7em;
+        }
+
+        /* Balão de mensagem - centralizado */
+        .balloon {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgba(255, 182, 193, 0.9);
+            padding: 20px 30px;
+            border-radius: 50px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            font-size: 1.5em;
+            text-align: center;
+            display: none;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+            max-width: 90%;
+            margin-top: 20px;
+            opacity: 0;
+            font-family: 'Pacifico', cursive; /* Fonte relaxante */
+        }
+
+        /* Efeito de animação do balão */
+        .balloon.show {
+            display: block;
+            opacity: 1;
+            animation: balloonAppear 1s ease-out forwards;
+        }
+
+        @keyframes balloonAppear {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 0;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Ajuste para telas menores (como celulares) */
+        @media (max-width: 768px) {
+            .content {
+                width: 90%;
+                padding: 10px;
+            }
+
+            header {
+                width: 100%;
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            #perguntas {
+                width: 100%;
+                padding: 15px;
+            }
+
+            label {
+                font-size: 1em;
+            }
+
+            input[type="submit"] {
+                width: 100%;
+                padding: 12px;
+            }
+
+            footer {
+                font-size: 0.8em;
+                padding: 10px;
+            }
+
+            form {
+                padding: 0;
+            }
+
+            input[type="radio"] + label {
+                font-size: 1.1em;
+            }
+        }
+
+        /* Ajuste para telas muito pequenas (ex: dispositivos como iPhone SE) */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.6em;
+            }
+
+            #perguntas {
+                width: 100%;
+                padding: 10px;
+            }
+
+            input[type="submit"] {
+                padding: 15px;
+                font-size: 1.2em;
+            }
+
+            footer {
+                font-size: 0.7em;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Div para o fundo borrado -->
+
+    <!-- Camada de fundo borrado -->
     <div class="background-overlay"></div>
 
+    <!-- Conteúdo principal -->
     <div class="content">
         <header>
             <h1>Cuidado e Bem-Estar</h1>
         </header>
 
         <section id="perguntas">
-            <h2>Responda às 3 perguntas sobre seu bem-estar:</h2>
-            <form action="#" method="post">
-                <!-- Pergunta 1: Qualidade do sono -->
-                <label for="pergunta1">1. A qualidade do seu sono é:</label><br>
-                <input type="radio" id="sono_bom" name="pergunta1" value="Bom" required>
+            <!-- Pergunta 1 - Sono -->
+            <h2>1. Como você avalia o seu sono?</h2>
+            <form id="questionario">
+                <input type="radio" id="sono_bom" name="sono" value="bom">
                 <label for="sono_bom">Bom</label><br>
-                <input type="radio" id="sono_ruim" name="pergunta1" value="Ruim">
-                <label for="sono_ruim">Ruim</label><br>
-                <input type="radio" id="sono_pessimo" name="pergunta1" value="Péssimo">
+                <input type="radio" id="sono_regular" name="sono" value="regular">
+                <label for="sono_regular">Regular</label><br>
+                <input type="radio" id="sono_pessimo" name="sono" value="pessimo">
                 <label for="sono_pessimo">Péssimo</label><br>
 
-                <!-- Pergunta 2: Estresse -->
-                <label for="pergunta2">2. Você se considera uma pessoa estressada?</label><br>
-                <input type="radio" id="estresse_sim" name="pergunta2" value="Sim" required>
+                <!-- Pergunta 2 - Estresse -->
+                <h2>2. Você se considera uma pessoa estressada?</h2>
+                <input type="radio" id="estresse_sim" name="estresse" value="sim">
                 <label for="estresse_sim">Sim</label><br>
-                <input type="radio" id="estresse_nao" name="pergunta2" value="Não">
+                <input type="radio" id="estresse_nao" name="estresse" value="nao">
                 <label for="estresse_nao">Não</label><br>
 
-                <!-- Pergunta 3: Organização da rotina -->
-                <label for="pergunta3">3. Você organiza sua rotina para equilibrar produtividade e bem-estar?</label><br>
-                <input type="radio" id="rotina_sim" name="pergunta3" value="Sim" required>
+                <!-- Pergunta 3 - Organização da rotina -->
+                <h2>3. Você organiza sua rotina para equilibrar produtividade e bem-estar?</h2>
+                <input type="radio" id="rotina_sim" name="rotina" value="sim">
                 <label for="rotina_sim">Sim</label><br>
-                <input type="radio" id="rotina_nao" name="pergunta3" value="Não">
+                <input type="radio" id="rotina_nao" name="rotina" value="nao">
                 <label for="rotina_nao">Não</label><br>
 
-                <input type="submit" value="Enviar Respostas">
+                <!-- Pergunta 4 - Funcionamento intestinal -->
+                <h2>4. Como está o seu funcionamento intestinal?</h2>
+                <input type="radio" id="funcionamento_boa" name="funcionamento_intestinal" value="boa">
+                <label for="funcionamento_boa">Boa</label><br>
+                <input type="radio" id="funcionamento_regular" name="funcionamento_intestinal" value="regular">
+                <label for="funcionamento_regular">Regular</label><br>
+                <input type="radio" id="funcionamento_pessima" name="funcionamento_intestinal" value="pessima">
+                <label for="funcionamento_pessima">Péssima</label><br>
+
+                <!-- Pergunta 5 - Alimentação -->
+                <h2>5. Como você avalia sua alimentação?</h2>
+                <input type="radio" id="alimentacao_boa" name="alimentacao" value="boa">
+                <label for="alimentacao_boa">Boa</label><br>
+                <input type="radio" id="alimentacao_regular" name="alimentacao" value="regular">
+                <label for="alimentacao_regular">Regular</label><br>
+                <input type="radio" id="alimentacao_ruim" name="alimentacao" value="ruim">
+                <label for="alimentacao_ruim">Ruim</label><br>
+
+                <!-- Pergunta 6 - Atividade física -->
+                <h2>6. Você pratica atividade física regularmente?</h2>
+                <input type="radio" id="atividade_sim" name="atividade_fisica" value="sim">
+                <label for="atividade_sim">Sim</label><br>
+                <input type="radio" id="atividade_nao" name="atividade_fisica" value="nao">
+                <label for="atividade_nao">Não</label><br>
+
+                <!-- Pergunta 7 - Ingestão de água -->
+                <h2>7. Qual é a sua ingestão diária de água?</h2>
+                <input type="radio" id="agua_boa" name="agua" value="boa">
+                <label for="agua_boa">Boa</label><br>
+                <input type="radio" id="agua_regular" name="agua" value="regular">
+                <label for="agua_regular">Regular</label><br>
+                <input type="radio" id="agua_ruim" name="agua" value="ruim">
+                <label for="agua_ruim">Ruim</label><br>
+
+                <!-- Pergunta 8 - Dores relacionadas à má postura -->
+                <h2>8. Quantas vezes no ano você sentiu dores relacionadas à má postura ou movimentos repetitivos?</h2>
+                <input type="radio" id="dores_frequentemente" name="dores_postura" value="frequentemente">
+                <label for="dores_frequentemente">Frequentemente (mais de uma vez por semana)</label><br>
+                <input type="radio" id="dores_ocasionalmente" name="dores_postura" value="ocasionalmente">
+                <label for="dores_ocasionalmente">Ocasionalmente (algumas vezes ao ano)</label><br>
+                <input type="radio" id="dores_raramente" name="dores_postura" value="raramente">
+                <label for="dores_raramente">Raramente ou nunca</label><br>
+
+                <!-- Botão de envio -->
+                <input type="submit" value="Enviar">
             </form>
         </section>
 
-        <footer>
-            <p>&copy; 2025 Massagem Relaxante. Todos os direitos reservados.</p>
-        </footer>
-    </div>
-</body>
-</html>
-
-<style>
-/* Estilo básico para o site */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    position: relative;
-}
-
-/* Camada de fundo borrado */
-.background-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('imagens/massagem.jpg'); /* Substitua com o caminho correto da imagem */
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll; /* Permite que a imagem role com o conteúdo */
-    filter: blur(8px); /* Aplica o desfoque à imagem de fundo */
-    z-index: -1; /* Garante que o fundo fique atrás do conteúdo */
-    transition: filter 0.5s ease; /* Suaviza a transição de desfoque */
-}
-
-/* Efeito de suavização quando a página é carregada */
-body:hover .background-overlay {
-    filter: blur(5px); /* Menos desfocado ao passar o mouse */
-}
-
-/* O conteúdo do site */
-.content {
-    position: relative;
-    z-index: 1;
-    color: #333;
-    padding: 20px;
-}
-
-/* Título com fundo artístico */
-header {
-    background: linear-gradient(135deg, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.8)); /* Gradiente de rosa claro para rosa mais forte */
-    text-align: center;
-    padding: 20px 30px; /* Mais espaço ao redor do título */
-    color: white;
-    border-radius: 15px; /* Bordas arredondadas */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    margin: 20px auto;
-    width: 80%; /* Deixa o título com largura controlada */
-    backdrop-filter: blur(5px); /* Efeito de desfoque no fundo */
-}
-
-h1 {
-    font-size: 2.5em; /* Tamanho maior para o título */
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5); /* Sombra suave no texto */
-}
-
-/* Estilo para a seção de perguntas */
-#perguntas {
-    background-color: rgba(255, 255, 255, 0.8); /* Fundo branco com transparência */
-    padding: 20px;
-    margin: 20px auto;
-    width: 60%;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* Título das perguntas */
-h2 {
-    color: #FFB6C1; /* Rosa clarinho */
-    font-size: 1.5em;
-    margin-bottom: 15px;
-}
-
-/* Formulário */
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Estilo das labels */
-label {
-    font-size: 1.1em;
-    margin-bottom: 10px;
-}
-
-/* Estilo para os botões de opção (radio buttons) */
-input[type="radio"] {
-    display: none; /* Esconde o radio button original */
-}
-
-/* Estilo dos círculos personalizados */
-input[type="radio"] + label {
-    display: inline-block;
-    position: relative;
-    padding-left: 35px;
-    font-size: 1.1em;
-    cursor: pointer;
-    margin-bottom: 10px;
-    transition: color 0.3s;
-}
-
-input[type="radio"] + label::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    border: 2px solid #FFB6C1; /* Cor do círculo */
-    border-radius: 50%;
-    background-color: white;
-    transition: background-color 0.3s, border-color 0.3s;
-}
-
-/* Efeito ao selecionar */
-input[type="radio"]:checked + label::before {
-    background-color: #FFB6C1;
-    border-color: #FF69B4; /* Rosa mais forte */
-}
-
-/* Efeito de hover */
-input[type="radio"]:not(:checked) + label:hover::before {
-    border-color: #FF69B4; /* Altera a borda ao passar o mouse */
-}
-
-/* Alinhamento das perguntas e respostas */
-input[type="radio"] + label {
-    display: block;
-    margin-bottom: 10px;
-}
-
-/* Estilo do botão de envio */
-input[type="submit"] {
-    background-color: #FFB6C1; /* Rosa clarinho */
-    color: white;
-    border: none;
-    padding: 10px;
-    font-size: 1.1em;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s;
-}
-
-input[type="submit"]:hover {
-    background-color: #FF69B4; /* Rosa mais forte */
-    transform: scale(1.05); /* Leve aumento ao passar o mouse */
-}
-
-/* Rodapé */
-footer {
-    background-color: rgba(255, 182, 193, 0.6); /* Rosa clarinho com 60% de opacidade */
-    text-align: center;
-    padding: 1px 15px;
-    color: white;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-    font-size: 0.7em;
-}
-
-/* Ajuste para telas menores (como celulares) */
-@media (max-width: 768px) {
-    /* Ajuste do conteúdo */
-    .content {
-        width: 90%; /* Largura maior para telas pequenas */
-        padding: 10px;
-    }
-
-    /* Ajustando o cabeçalho */
-    header {
-        width: 100%;
-        padding: 15px;
-    }
-
-    h1 {
-        font-size: 1.8em; /* Reduz o tamanho do título em dispositivos pequenos */
-    }
-
-    /* Ajuste da seção de perguntas */
-    #perguntas {
-        width: 100%; /* Aumenta a largura da seção de perguntas */
-        padding: 15px;
-    }
-
-    label {
-        font-size: 1em; /* Ajuste no tamanho das fontes */
-    }
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Massagem Relaxante</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <!-- Div para o fundo borrado -->
-    <div class="background-overlay"></div>
-
-    <div class="content">
-        <header>
-            <h1>Cuidado e Bem-Estar</h1>
-        </header>
-
-        <section id="perguntas">
-            <h2>Responda às 3 perguntas sobre seu bem-estar:</h2>
-            <form action="#" method="post">
-                <!-- Pergunta 1: Qualidade do sono -->
-                <label for="pergunta1">1. A qualidade do seu sono é:</label><br>
-                <input type="radio" id="sono_bom" name="pergunta1" value="Bom" required>
-                <label for="sono_bom">Bom</label><br>
-                <input type="radio" id="sono_ruim" name="pergunta1" value="Ruim">
-                <label for="sono_ruim">Ruim</label><br>
-                <input type="radio" id="sono_pessimo" name="pergunta1" value="Péssimo">
-                <label for="sono_pessimo">Péssimo</label><br>
-
-                <!-- Pergunta 2: Estresse -->
-                <label for="pergunta2">2. Você se considera uma pessoa estressada?</label><br>
-                <input type="radio" id="estresse_sim" name="pergunta2" value="Sim" required>
-                <label for="estresse_sim">Sim</label><br>
-                <input type="radio" id="estresse_nao" name="pergunta2" value="Não">
-                <label for="estresse_nao">Não</label><br>
-
-                <!-- Pergunta 3: Organização da rotina -->
-                <label for="pergunta3">3. Você organiza sua rotina para equilibrar produtividade e bem-estar?</label><br>
-                <input type="radio" id="rotina_sim" name="pergunta3" value="Sim" required>
-                <label for="rotina_sim">Sim</label><br>
-                <input type="radio" id="rotina_nao" name="pergunta3" value="Não">
-                <label for="rotina_nao">Não</label><br>
-
-                <input type="submit" value="Enviar Respostas">
-            </form>
-        </section>
+        <!-- Balão de mensagem -->
+        <div class="balloon" id="balloon">
+            <p>Nosso time de massagistas agradecem, agora aproveite sua massagem! 💖</p>
+        </div>
 
         <footer>
-            <p>&copy; 2025 Massagem Relaxante. Todos os direitos reservados.</p>
+            <p>&copy; 2025 Bem-Estar</p>
         </footer>
     </div>
+
+    <script>
+        document.getElementById("questionario").addEventListener("submit", function(event) {
+            event.preventDefault(); // Impede o envio do formulário
+
+            // Verificar se todas as perguntas foram respondidas
+            var allAnswered = true;
+
+            // Verificar se há pelo menos uma opção selecionada para cada grupo de perguntas
+            var questionNames = [
+                'sono',
+                'estresse',
+                'rotina',
+                'funcionamento_intestinal',
+                'alimentacao',
+                'atividade_fisica',
+                'agua',
+                'dores_postura'
+            ];
+
+            questionNames.forEach(function(name) {
+                var radios = document.getElementsByName(name);
+                var answered = false;
+
+                // Verificar se algum radio button foi selecionado para a pergunta atual
+                radios.forEach(function(radio) {
+                    if (radio.checked) {
+                        answered = true;
+                    }
+                });
+
+                // Se nenhuma opção foi selecionada para a pergunta, marcar como não respondida
+                if (!answered) {
+                    allAnswered = false;
+                }
+            });
+
+            // Se todas as perguntas foram respondidas, exibe o balão
+            if (allAnswered) {
+                var balloon = document.getElementById("balloon");
+                balloon.classList.add("show");
+            } else {
+                alert("Por favor, responda todas as perguntas!");
+            }
+        });
+    </script>
 </body>
 </html>
-
